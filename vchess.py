@@ -2,6 +2,26 @@
 import chess
 import chess.uci
 
+# ranks = rows (1,2,3,4..)
+# files = columns (a,b,c...)
+def square(file_idx, rank_idx):
+    return rank_idx*8 + file_idx
+
+
+def print_board(board):
+    for j in range(7, -1, -1):
+        print('  +---+---+---+---+---+---+---+---+')
+        print('{} |'.format(j+1), end='')
+        for i in range(8):
+            piece = board.piece_at(square(i, j))
+            if piece:
+                print(' {} |'.format(piece.symbol()), end="")
+            else:
+                print('   |', end="")
+        print()
+    print('  +---+---+---+---+---+---+---+---+')
+    print('    a   b   c   d   e   f   g   h')
+
 
 board = chess.Board()
 
@@ -11,8 +31,7 @@ engine.ucinewgame()
 engine.position(board)
 
 print(engine.author)
-# TODO : custom board rendering
-print(board)
+print_board(board)
 
 if __name__ == '__main__':
     while not board.is_game_over():
@@ -30,7 +49,7 @@ if __name__ == '__main__':
                 board.push(chessMove)
                 engine.position(board)
                 moved = True
-                print(board)
+                print_board(board)
             except ValueError:
                 print('error')
 
@@ -40,4 +59,4 @@ if __name__ == '__main__':
         board.push(best_move)
         engine.position(board)
         print(best_move)
-        print(board)
+        print_board(board)
