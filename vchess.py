@@ -8,14 +8,19 @@ def square(file_idx, rank_idx):
     return rank_idx*8 + file_idx
 
 
-def print_board(board):
+def print_board(board, unicode=True):
     for j in range(7, -1, -1):
         print('  +---+---+---+---+---+---+---+---+')
         print('{} |'.format(j+1), end='')
         for i in range(8):
             piece = board.piece_at(square(i, j))
             if piece:
-                print(' {} |'.format(piece.symbol()), end="")
+                if unicode:
+                    symbol = piece.unicode_symbol()
+                else:
+                    symbol = piece.symbol()
+
+                print(' {} |'.format(symbol), end="")
             else:
                 print('   |', end="")
         print()
